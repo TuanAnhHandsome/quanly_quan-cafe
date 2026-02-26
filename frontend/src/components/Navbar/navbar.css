@@ -1,0 +1,15 @@
+.navbar{
+
+height:50px;
+background:#16a34a;
+
+display:flex;
+align-items:center;
+gap:30px;
+
+padding-left:20px;
+
+color:white;
+font-weight:500;
+
+}
