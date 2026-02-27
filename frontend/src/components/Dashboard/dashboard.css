@@ -373,3 +373,40 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+.period-wrapper {
+  position: relative;
+}
+
+.period-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.period-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 150px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.period-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.period-item:hover {
+  background: #f3f4f6;
+}
