@@ -20,7 +20,7 @@
   background: #ffffff;
   border-radius: 8px;
   padding: 18px 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
 }
 
 .card-title {
@@ -68,9 +68,17 @@
   flex-shrink: 0;
 }
 
-.stat-icon.blue { background: #3b82f6; }
-.stat-icon.teal { background: #14b8a6; }
-.stat-icon.purple { background: #8b5cf6; }
+.stat-icon.blue {
+  background: #3b82f6;
+}
+
+.stat-icon.teal {
+  background: #14b8a6;
+}
+
+.stat-icon.purple {
+  background: #8b5cf6;
+}
 
 .stat-content {
   display: flex;
@@ -104,8 +112,13 @@
   gap: 3px;
 }
 
-.stat-change.up { color: #22c55e; }
-.stat-change.down { color: #ef4444; }
+.stat-change.up {
+  color: #22c55e;
+}
+
+.stat-change.down {
+  color: #ef4444;
+}
 
 .stat-sub {
   font-size: 11px;
@@ -146,7 +159,9 @@
   transition: background 0.15s;
 }
 
-.refresh-btn:hover { background: #eff6ff; }
+.refresh-btn:hover {
+  background: #eff6ff;
+}
 
 .revenue-zero {
   font-size: 16px;
@@ -169,7 +184,9 @@
   transition: background 0.15s;
 }
 
-.period-btn:hover { background: #f9fafb; }
+.period-btn:hover {
+  background: #f9fafb;
+}
 
 /* Tabs */
 .tabs {
@@ -192,7 +209,9 @@
   transition: color 0.15s;
 }
 
-.tab-btn:hover { color: #374151; }
+.tab-btn:hover {
+  color: #374151;
+}
 
 .tab-btn.active {
   color: #16a34a;
@@ -265,7 +284,7 @@
   font-weight: 900;
   margin: 0;
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .promo-sub {
@@ -285,7 +304,7 @@
   background: white;
   border-radius: 8px;
   padding: 14px 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -294,7 +313,7 @@
 }
 
 .sidebar-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .sidebar-card-content {
@@ -307,7 +326,9 @@
   font-size: 18px;
 }
 
-.sidebar-icon.green { color: #16a34a; }
+.sidebar-icon.green {
+  color: #16a34a;
+}
 
 .sidebar-card-title {
   font-size: 13.5px;
@@ -370,9 +391,17 @@
 }
 
 @keyframes shimmer {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
+
 .period-wrapper {
   position: relative;
 }
@@ -396,7 +425,7 @@
   background: white;
   border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 10;
 }
@@ -409,4 +438,34 @@
 
 .period-item:hover {
   background: #f3f4f6;
+}
+
+@media (max-width:768px) {
+
+  .dashboard {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .dashboard-main {
+    width: 100%;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+  }
+
+  .stats-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
 }

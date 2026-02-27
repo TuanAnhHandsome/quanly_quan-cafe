@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faPlus, faFileImport, faFileExport, faBars,
+  faPlus, faFileImport, faFileExport, 
   faChevronDown, faChevronUp, faSearch,
   faFilter, faToggleOn, faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
