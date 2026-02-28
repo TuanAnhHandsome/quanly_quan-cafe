@@ -18,7 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:admin": "npx ts-node -r tsconfig-paths/register src/database/seed-admin.ts"
+    "seed:admin": "npx ts-node -r tsconfig-paths/register src/database/seed-admin.ts",
+    "seed:permissions": "npx ts-node -r tsconfig-paths/register src/database/seed-permissions.ts",
+    "seed:all": "npm run seed:admin && npm run seed:permissions"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

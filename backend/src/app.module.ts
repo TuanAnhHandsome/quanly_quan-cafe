@@ -6,7 +6,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config"
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { UsersModule } from "./users/users.module"
 import { AuthModule } from "./auth/auth.module"
+import { PermissionsModule } from "./permissions/permissions.module"
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard"
+import { PermissionsGuard } from "./permissions/guards/permissions.guard"
 
 @Module({
   imports: [
@@ -28,14 +30,20 @@ import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard"
     }),
     UsersModule,
     AuthModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    // Đăng ký global guard qua DI — NestJS tự inject JwtService, ConfigService, Reflector
+    // Guard 1: Xác thực JWT (chạy trước)
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    // Guard 2: Kiểm tra permission (chạy sau khi đã xác thực)
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
     },
   ],
 })

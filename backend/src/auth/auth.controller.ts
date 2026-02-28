@@ -15,6 +15,7 @@ import { JwtAuthGuard } from "./guards/jwt-auth.guard"
 import { CurrentUser } from "./decorators/current-user.decorator"
 import type { JwtPayload } from "./guards/jwt-auth.guard"
 import { Public } from "./decorators/public.decorator"
+import { RequirePermissions } from "../permissions/decorators/permissions.decorator"
 
 @Controller("auth")
 export class AuthController {
@@ -66,6 +67,7 @@ export class AuthController {
    * POST /auth/logout-all
    * Revokes ALL sessions for the authenticated user (requires valid access token).
    */
+  @RequirePermissions("auth:logout_all")
   @Post("logout-all")
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
