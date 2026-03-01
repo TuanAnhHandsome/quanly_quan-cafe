@@ -17,40 +17,43 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const USER_KEY = 'kv_user';
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser]       = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); // kiểm tra session khi load app
+  const [user, setUser] = useState<User | null>(() => {
+    // Đọc user đã lưu từ localStorage khi load app
+    try {
+      const stored = localStorage.getItem(USER_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  // loading = false ngay vì không cần gọi API check session
+  const [loading, setLoading] = useState(false);
 
   const logout = useCallback(async () => {
     try { await api.post('/auth/logout'); } catch {}
+    localStorage.removeItem(USER_KEY);
     setUser(null);
   }, []);
 
   // Lắng nghe event từ interceptor khi refresh thất bại
   useEffect(() => {
-    const handler = () => { setUser(null); };
+    const handler = () => {
+      localStorage.removeItem(USER_KEY);
+      setUser(null);
+    };
     window.addEventListener('auth:logout', handler);
     return () => window.removeEventListener('auth:logout', handler);
   }, []);
 
-  // Kiểm tra session hiện tại khi load trang (cookie còn hợp lệ không)
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data } = await api.get('/auth/me');
-        setUser(data);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    checkSession();
-  }, []);
-
   const login = async (email: string, password: string) => {
     const { data } = await api.post('/auth/login', { email, password });
-    setUser(data.user);
+    const loggedInUser: User = data.user;
+    localStorage.setItem(USER_KEY, JSON.stringify(loggedInUser));
+    setUser(loggedInUser);
   };
 
   return (
