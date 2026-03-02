@@ -8,7 +8,7 @@ import { RequirePermissions } from '../permissions/decorators/permissions.decora
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @RequirePermissions('user:create')
+  // @RequirePermissions('user:create')
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createUserDto: CreateUserDto) {

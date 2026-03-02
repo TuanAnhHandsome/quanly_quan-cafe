@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   ForbiddenException,
+  NotFoundException,
 } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { ConfigService } from "@nestjs/config"
@@ -183,6 +184,66 @@ export class AuthService {
     await this.sessionRepository.revokeAllByUserId(userId)
     this.clearAuthCookies(res)
     return { message: "Logged out from all devices" }
+  }
+
+  /**
+   * Force logout: Admin/Manager thu hồi toàn bộ session của một user khác.
+   * Tăng tokenVersion để invalidate mọi access token đang lưu hành.
+   */
+  async forceLogout(targetUserId: number) {
+    const user = await this.usersRepository.findOneById(targetUserId)
+    if (!user) {
+      throw new NotFoundException(`User #${targetUserId} not found`)
+    }
+
+    // Revoke toàn bộ refresh sessions
+    await this.sessionRepository.revokeAllByUserId(targetUserId)
+
+    // Tăng tokenVersion → mọi access token cũ sẽ bị invalidate khi guard check
+    await this.usersRepository.incrementTokenVersion(targetUserId)
+
+    return {
+      message: `All sessions of user #${targetUserId} have been revoked`,
+    }
+  }
+
+  /**
+   * Force logout một thiết bị cụ thể của user.
+   */
+  async forceLogoutDevice(targetUserId: number, sessionId: number) {
+    const user = await this.usersRepository.findOneById(targetUserId)
+    if (!user) {
+      throw new NotFoundException(`User #${targetUserId} not found`)
+    }
+
+    const revoked = await this.sessionRepository.revokeSessionById(
+      sessionId,
+      targetUserId,
+    )
+    if (!revoked) {
+      throw new NotFoundException(
+        `Active session #${sessionId} not found for user #${targetUserId}`,
+      )
+    }
+
+    return {
+      message: `Session #${sessionId} of user #${targetUserId} has been revoked`,
+    }
+  }
+
+  /**
+   * Lấy danh sách thiết bị đang đăng nhập của một user.
+   */
+  async getDevices(userId: number) {
+    const sessions = await this.sessionRepository.findActiveByUserId(userId)
+    return sessions.map((s) => ({
+      id: s.id,
+      deviceId: s.deviceId,
+      deviceName: s.deviceName,
+      ipAddress: s.ipAddress,
+      lastUsedAt: s.lastUsedAt,
+      createdAt: s.createdAt,
+    }))
   }
 
   // ──────────────────────────────────────────────

@@ -30,4 +30,9 @@ export class UsersRepository {
   async updateLastLogin(id: number): Promise<void> {
     await this.repo.update(id, { lastLoginAt: new Date() })
   }
+
+  /** Tăng tokenVersion lên 1 → invalidate toàn bộ access token đang lưu hành */
+  async incrementTokenVersion(id: number): Promise<void> {
+    await this.repo.increment({ id }, "tokenVersion", 1)
+  }
 }
