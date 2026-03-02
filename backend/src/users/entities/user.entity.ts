@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
 } from "typeorm"
+import { Exclude } from "class-transformer"
 
 export enum UserRole {
   ADMIN = "admin",
@@ -30,6 +31,7 @@ export class User {
   @Column({ type: "varchar", length: 15, nullable: true })
   phone?: string
 
+  @Exclude()
   @Column({ name: "password", type: "varchar", length: 255 })
   password: string
 
@@ -39,6 +41,7 @@ export class User {
   })
   role: UserRole
 
+  @Exclude()
   @Column({ name: "token_version", type: "int", default: 0 })
   tokenVersion: number
 

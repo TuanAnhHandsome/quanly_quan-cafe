@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm"
 import { UsersModule } from "./users/users.module"
 import { AuthModule } from "./auth/auth.module"
 import { PermissionsModule } from "./permissions/permissions.module"
+import { ShiftsModule } from "./shifts/shifts.module"
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard"
 import { PermissionsGuard } from "./permissions/guards/permissions.guard"
 
@@ -31,6 +32,7 @@ import { PermissionsGuard } from "./permissions/guards/permissions.guard"
     UsersModule,
     AuthModule,
     PermissionsModule,
+    ShiftsModule,
   ],
   controllers: [AppController],
   providers: [
