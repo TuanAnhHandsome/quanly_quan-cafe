@@ -20,6 +20,15 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('Theo giờ');
 
   const tabs: TabType[] = ['Theo ngày', 'Theo giờ', 'Theo thứ'];
+  const [showPeriodMenu, setShowPeriodMenu] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState("Hôm nay");
+
+  const periods = [
+    "Hôm nay",
+    "Hôm qua",
+    "7 ngày qua",
+    "Tháng này"
+  ];
 
   return (
     <div className="dashboard">
@@ -83,15 +92,39 @@ const Dashboard: React.FC = () => {
         <div className="card chart-card">
           <div className="chart-header">
             <div className="chart-title-row">
-              <h2 className="card-title">DOANH SỐ HÔM NAY</h2>
+              <h2 className="card-title">
+                DOANH SỐ {selectedPeriod.toUpperCase()}
+              </h2>
               <button className="refresh-btn">
                 <FontAwesomeIcon icon={faSyncAlt} />
               </button>
               <span className="revenue-zero">0</span>
             </div>
-            <button className="period-btn">
-              Hôm nay <FontAwesomeIcon icon={faChevronDown} />
-            </button>
+            <div className="period-wrapper">
+              <button
+                className="period-btn"
+                onClick={() => setShowPeriodMenu(!showPeriodMenu)}
+              >
+                {selectedPeriod} <FontAwesomeIcon icon={faChevronDown} />
+              </button>
+
+              {showPeriodMenu && (
+                <div className="period-menu">
+                  {periods.map((period) => (
+                    <div
+                      key={period}
+                      className="period-item"
+                      onClick={() => {
+                        setSelectedPeriod(period);
+                        setShowPeriodMenu(false);
+                      }}
+                    >
+                      {period}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="tabs">
