@@ -9,22 +9,18 @@ import './Navbar.css';
 
 export type NavPage =
   | 'Tổng quan' | 'Hàng hóa' | 'Phòng/Bàn' | 'Giao dịch'
-  | 'Đối tác' | 'Nhân viên' | 'Bán Online' | 'Sổ quỹ'
-  | 'Báo cáo' | 'Thuế & Kế toán';
+  | 'Nhân viên'
+  | 'Báo cáo';
 
 interface NavItemDef { label: NavPage; icon: any; subItems?: string[]; }
 
 const navItems: NavItemDef[] = [
   { label: 'Tổng quan', icon: faChartPie },
-  { label: 'Hàng hóa',  icon: faBoxes,       subItems: ['Danh mục', 'Thiết lập giá', 'Kiểm kho'] },
-  { label: 'Phòng/Bàn', icon: faChair,        subItems: ['Danh sách phòng bàn', 'Gọi món qua mã QR'] },
+  { label: 'Hàng hóa', icon: faBoxes,       subItems: ['Danh mục', 'Kiểm kho'] },
+  { label: 'Phòng/Bàn', icon: faChair,      subItems: ['Danh sách phòng bàn', 'Gọi món qua mã QR'] },
   { label: 'Giao dịch', icon: faExchangeAlt },
-  { label: 'Đối tác',   icon: faHandshake },
-  { label: 'Nhân viên', icon: faUsers },
-  { label: 'Bán Online',icon: faStore },
-  { label: 'Sổ quỹ',    icon: faCashRegister },
-  { label: 'Báo cáo',   icon: faChartBar },
-  { label: 'Thuế & Kế toán', icon: faCalculator },
+  { label: 'Nhân viên', icon: faUsers,      subItems: ['Danh mục', 'Kiểm kho'] },
+  { label: 'Báo cáo', icon: faChartBar },
 ];
 
 interface NavbarProps {
@@ -85,9 +81,8 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate, navColor }) => 
         ))}
       </ul>
       <div className="navbar-actions">
-        <button className="navbar-action-btn" title="Đặt hàng"><FontAwesomeIcon icon={faFileInvoice} /></button>
-        <button className="navbar-action-btn" title="Danh sách"><FontAwesomeIcon icon={faClipboardList} /></button>
-        <button className="navbar-action-btn" title="Khuyến mãi"><FontAwesomeIcon icon={faTag} /></button>
+        <button className="navbar-action-btn" title="Đặt bàn"><FontAwesomeIcon icon={faFileInvoice} /></button>
+        <button className="navbar-action-btn" title="Thu ngân"><FontAwesomeIcon icon={faTag} /></button>
       </div>
     </nav>
   );
