@@ -8,6 +8,7 @@ import { UsersModule } from "./users/users.module"
 import { AuthModule } from "./auth/auth.module"
 import { PermissionsModule } from "./permissions/permissions.module"
 import { ShiftsModule } from "./shifts/shifts.module"
+import { ProductsModule } from "./products/products.module"
 import { JwtAuthGuard } from "./auth/guards/jwt-auth.guard"
 import { PermissionsGuard } from "./permissions/guards/permissions.guard"
 
@@ -33,6 +34,7 @@ import { PermissionsGuard } from "./permissions/guards/permissions.guard"
     AuthModule,
     PermissionsModule,
     ShiftsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [

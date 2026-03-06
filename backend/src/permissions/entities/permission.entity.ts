@@ -25,6 +25,7 @@ export enum PermissionModule {
   SHIFT = "shift",
   REPORT = "report",
   SYSTEM = "system",
+  PRODUCT = "product",
 }
 
 @Entity("permissions")

@@ -89,6 +89,10 @@ const PERMISSIONS: { name: string; description: string; module: PermissionModule
   // MODULE: SYSTEM
   { name: "system:config", description: "Cấu hình hệ thống", module: PermissionModule.SYSTEM },
   { name: "system:view_logs", description: "Xem system logs", module: PermissionModule.SYSTEM },
+
+  // MODULE: PRODUCT
+  { name: "product:view", description: "Xem danh sách và chi tiết hàng hóa", module: PermissionModule.PRODUCT },
+  { name: "product:manage", description: "Thêm/sửa/xóa hàng hóa và danh mục", module: PermissionModule.PRODUCT },
 ]
 
 // ─── MAPPING ROLE → PERMISSION NAMES ────────────────────────────────────────
@@ -115,6 +119,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     "customer:view", "customer:create",
     "customer:update_points", "customer:manage",
     "shift:view_own", "shift:view_all", "shift:manage", "shift:close",
+    "product:view", "product:manage",
     "report:view_shift", "report:view_daily",
     "report:view_full", "report:export", "report:view_cost",
   ],
@@ -129,6 +134,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     "menu:view",
     "table:view", "table:update_status",
     "customer:view", "customer:create", "customer:update_points",
+    "product:view",
     "shift:view_own",
   ],
 
@@ -141,6 +147,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     "menu:view",
     "table:view", "table:update_status",
     "customer:view",
+    "product:view",
     "shift:view_own",
   ],
 
@@ -151,8 +158,19 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     "order:view_queue", "order:update_item_status",
     "menu:view_barista",
     "inventory:view_bar", "inventory:report_low",
+    "product:view",
     "shift:view_own",
   ],
+}
+
+async function ensurePermissionModuleEnum(dataSource: DataSource): Promise<void> {
+  const enumValues = Object.values(PermissionModule)
+    .map((value) => `'${value}'`)
+    .join(", ")
+
+  await dataSource.query(
+    `ALTER TABLE permissions MODIFY COLUMN module ENUM(${enumValues}) NOT NULL`,
+  )
 }
 
 // ─── MAIN ────────────────────────────────────────────────────────────────────
@@ -173,6 +191,7 @@ async function seedPermissions() {
   })
 
   await dataSource.initialize()
+  await ensurePermissionModuleEnum(dataSource)
   console.log("✓ Database connected")
 
   const permRepo = dataSource.getRepository(Permission)
