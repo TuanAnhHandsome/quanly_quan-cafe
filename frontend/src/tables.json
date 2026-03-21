@@ -1,0 +1,50 @@
+[
+  {
+    "id": "zone-1",
+    "name": "Tầng 1",
+    "note": "Khu vực tầng trệt",
+    "status": "active",
+    "tables": [
+      { "id": "t-101", "name": "Bàn 01", "seats": 4, "note": "", "status": "active" },
+      { "id": "t-102", "name": "Bàn 02", "seats": 4, "note": "", "status": "active" },
+      { "id": "t-103", "name": "Bàn 03", "seats": 6, "note": "Bàn góc", "status": "active" },
+      { "id": "t-104", "name": "Bàn 04", "seats": 2, "note": "", "status": "inactive" },
+      { "id": "t-105", "name": "Bàn 05", "seats": 4, "note": "", "status": "active" },
+      { "id": "t-106", "name": "Bàn 06", "seats": 8, "note": "Bàn dài", "status": "active" }
+    ]
+  },
+  {
+    "id": "zone-2",
+    "name": "Tầng 2",
+    "note": "Khu vực tầng 2",
+    "status": "active",
+    "tables": [
+      { "id": "t-201", "name": "Bàn 01", "seats": 4, "note": "", "status": "active" },
+      { "id": "t-202", "name": "Bàn 02", "seats": 4, "note": "", "status": "active" },
+      { "id": "t-203", "name": "Bàn 03", "seats": 6, "note": "", "status": "active" },
+      { "id": "t-204", "name": "Bàn 04", "seats": 4, "note": "", "status": "inactive" }
+    ]
+  },
+  {
+    "id": "zone-3",
+    "name": "Sân vườn",
+    "note": "Khu vực ngoài trời",
+    "status": "active",
+    "tables": [
+      { "id": "t-301", "name": "Bàn 01", "seats": 6, "note": "View đẹp", "status": "active" },
+      { "id": "t-302", "name": "Bàn 02", "seats": 6, "note": "", "status": "active" },
+      { "id": "t-303", "name": "Bàn 03", "seats": 4, "note": "", "status": "active" }
+    ]
+  },
+  {
+    "id": "zone-4",
+    "name": "Phòng VIP",
+    "note": "Phòng riêng cao cấp",
+    "status": "active",
+    "tables": [
+      { "id": "t-401", "name": "Phòng A", "seats": 10, "note": "Có máy chiếu", "status": "active" },
+      { "id": "t-402", "name": "Phòng B", "seats": 8,  "note": "", "status": "active" },
+      { "id": "t-403", "name": "Phòng C", "seats": 12, "note": "Phòng lớn nhất", "status": "inactive" }
+    ]
+  }
+]

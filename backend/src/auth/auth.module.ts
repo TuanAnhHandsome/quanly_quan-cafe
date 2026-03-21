@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common"
 import { JwtModule } from "@nestjs/jwt"
 import { TypeOrmModule } from "@nestjs/typeorm"
+import { Reflector } from "@nestjs/core"     
 import { AuthService } from "./services/auth.service"
 import { AuthController } from "./auth.controller"
 import { SessionRepository } from "./repositories/session.repository"

@@ -100,16 +100,6 @@ const Header: React.FC<HeaderProps> = ({ navColor, onColorChange }) => {
                   </button>
                 ))}
               </div>
-              <div className="color-names">
-                {THEME_COLORS.map(c => (
-                  <span key={c.value}
-                    className={`color-label ${navColor === c.value ? 'color-label-active' : ''}`}
-                    style={navColor === c.value ? { color: c.value } : {}}
-                    onClick={() => { onColorChange(c.value); setShowTheme(false); }}>
-                    {c.name}
-                  </span>
-                ))}
-              </div>
             </div>
           )}
         </div>

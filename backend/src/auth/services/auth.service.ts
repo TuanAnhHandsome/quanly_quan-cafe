@@ -12,7 +12,7 @@ import { LoginUserDto } from "../dto/login-user.dto"
 import { comparePassword } from "utils"
 import { JwtPayload } from "../guards/jwt-auth.guard"
 import { Request, Response } from "express"
-
+import * as bcrypt from 'bcrypt'
 const ACCESS_TOKEN_COOKIE = "access_token"
 const REFRESH_TOKEN_COOKIE = "refresh_token"
 const REFRESH_TOKEN_BYTES = 32 // 32 bytes → 64 hex chars
@@ -25,7 +25,7 @@ export class AuthService {
     private readonly sessionRepository: SessionRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
-  ) {}
+  ) { }
 
   // PUBLIC METHODS
 
@@ -37,6 +37,12 @@ export class AuthService {
   async login(dto: LoginUserDto, req: Request, res: Response) {
     // 1. Xác thực email & password
     const user = await this.usersRepository.findOneByEmail(dto.email)
+    console.log('user found:', user?.email, 'isActive:', user?.isActive)
+    console.log('password in DB:', user?.password)
+    if (user) {
+      const bcrypt = require('bcrypt')
+      console.log('manual compare:', bcrypt.compareSync('12345678', user.password))
+    }
     if (!user || !comparePassword(dto.password, user.password)) {
       throw new UnauthorizedException("Invalid email or password")
     }
@@ -60,7 +66,7 @@ export class AuthService {
     const deviceName = dto.deviceName ?? this.parseDeviceName(ua)
 
     console.log("DeviceName: ", deviceName);
-    
+
     await this.sessionRepository.upsert({
       userId: user.id,
       refreshTokenHash,
