@@ -1,0 +1,131 @@
+{
+  "departments": [
+    { "id": "dept-1", "name": "Bếp" },
+    { "id": "dept-2", "name": "Phục vụ" },
+    { "id": "dept-3", "name": "Thu ngân" },
+    { "id": "dept-4", "name": "Quản lý" }
+  ],
+  "positions": [
+    { "id": "pos-1", "name": "Bếp trưởng" },
+    { "id": "pos-2", "name": "Bếp phó" },
+    { "id": "pos-3", "name": "Nhân viên bếp" },
+    { "id": "pos-4", "name": "Phục vụ" },
+    { "id": "pos-5", "name": "Thu ngân" },
+    { "id": "pos-6", "name": "Quản lý ca" },
+    { "id": "pos-7", "name": "Quản lý" }
+  ],
+  "employees": [
+    {
+      "id": "NV0001",
+      "name": "Nguyễn Văn An",
+      "phone": "0901234567",
+      "email": "an.nguyen@cafe.vn",
+      "departmentId": "dept-4",
+      "positionId": "pos-7",
+      "gender": "male",
+      "birthDate": "1990-05-15",
+      "address": "123 Lê Lợi, Q1, TP.HCM",
+      "startDate": "2020-01-10",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0002",
+      "name": "Trần Thị Bình",
+      "phone": "0912345678",
+      "email": "binh.tran@cafe.vn",
+      "departmentId": "dept-3",
+      "positionId": "pos-5",
+      "gender": "female",
+      "birthDate": "1995-08-20",
+      "address": "45 Nguyễn Huệ, Q1, TP.HCM",
+      "startDate": "2021-03-15",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0003",
+      "name": "Lê Minh Cường",
+      "phone": "0923456789",
+      "email": "cuong.le@cafe.vn",
+      "departmentId": "dept-1",
+      "positionId": "pos-1",
+      "gender": "male",
+      "birthDate": "1988-12-03",
+      "address": "67 Trần Hưng Đạo, Q5, TP.HCM",
+      "startDate": "2019-06-01",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0004",
+      "name": "Phạm Thị Dung",
+      "phone": "0934567890",
+      "email": "dung.pham@cafe.vn",
+      "departmentId": "dept-2",
+      "positionId": "pos-4",
+      "gender": "female",
+      "birthDate": "1998-03-25",
+      "address": "89 Đinh Tiên Hoàng, Q3, TP.HCM",
+      "startDate": "2022-01-05",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0005",
+      "name": "Hoàng Văn Em",
+      "phone": "0945678901",
+      "email": "em.hoang@cafe.vn",
+      "departmentId": "dept-1",
+      "positionId": "pos-2",
+      "gender": "male",
+      "birthDate": "1992-07-18",
+      "address": "12 Võ Văn Tần, Q3, TP.HCM",
+      "startDate": "2020-09-20",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0006",
+      "name": "Vũ Thị Phương",
+      "phone": "0956789012",
+      "email": "phuong.vu@cafe.vn",
+      "departmentId": "dept-2",
+      "positionId": "pos-4",
+      "gender": "female",
+      "birthDate": "2000-11-30",
+      "address": "34 Hai Bà Trưng, Q1, TP.HCM",
+      "startDate": "2023-02-14",
+      "status": "inactive",
+      "avatar": ""
+    },
+    {
+      "id": "NV0007",
+      "name": "Đặng Văn Giang",
+      "phone": "0967890123",
+      "email": "giang.dang@cafe.vn",
+      "departmentId": "dept-1",
+      "positionId": "pos-3",
+      "gender": "male",
+      "birthDate": "1997-04-12",
+      "address": "56 Cách Mạng Tháng 8, Q10, TP.HCM",
+      "startDate": "2022-07-01",
+      "status": "active",
+      "avatar": ""
+    },
+    {
+      "id": "NV0008",
+      "name": "Bùi Thị Hoa",
+      "phone": "0978901234",
+      "email": "hoa.bui@cafe.vn",
+      "departmentId": "dept-4",
+      "positionId": "pos-6",
+      "gender": "female",
+      "birthDate": "1993-09-08",
+      "address": "78 Lý Thường Kiệt, Q10, TP.HCM",
+      "startDate": "2021-11-01",
+      "status": "active",
+      "avatar": ""
+    }
+  ]
+}

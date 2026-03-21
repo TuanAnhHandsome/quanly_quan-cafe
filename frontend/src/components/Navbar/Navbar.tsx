@@ -11,28 +11,52 @@ export type NavPage =
   | 'Tổng quan' | 'Hàng hóa' | 'Phòng/Bàn' | 'Giao dịch'
   | 'Nhân viên' | 'Báo cáo';
 
+export type SubPage =
+  /* Hàng hóa */
+  | 'Danh mục' | 'Kiểm kho'
+  /* Phòng/Bàn */
+  | 'Danh sách phòng bàn' | 'Gọi món qua mã QR'
+  /* Nhân viên */
+  | 'Danh sách nhân viên' | 'Lịch làm việc' | 'Bảng chấm công';
+
 interface NavItemDef {
   label: NavPage;
   icon: any;
   permission: Permission;
-  subItems?: string[];
+  subItems?: { label: SubPage; badge?: string }[];
 }
 
 const NAV_ITEMS: NavItemDef[] = [
-  { label: 'Tổng quan', icon: faChartPie,    permission: 'dashboard:read'    },
-  { label: 'Hàng hóa',  icon: faBoxes,       permission: 'products:read',
-    subItems: ['Danh mục', 'Kiểm kho'] },
-  { label: 'Phòng/Bàn', icon: faChair,       permission: 'tables:read',
-    subItems: ['Danh sách phòng bàn', 'Gọi món qua mã QR'] },
+  { label: 'Tổng quan', icon: faChartPie,    permission: 'dashboard:read' },
+  {
+    label: 'Hàng hóa', icon: faBoxes, permission: 'products:read',
+    subItems: [
+      { label: 'Danh mục' },
+      { label: 'Kiểm kho' },
+    ],
+  },
+  {
+    label: 'Phòng/Bàn', icon: faChair, permission: 'tables:read',
+    subItems: [
+      { label: 'Danh sách phòng bàn' },
+      { label: 'Gọi món qua mã QR', badge: 'Mới' },
+    ],
+  },
   { label: 'Giao dịch', icon: faExchangeAlt, permission: 'transactions:read' },
-  { label: 'Nhân viên', icon: faUsers,       permission: 'employees:read',
-    subItems: ['Danh mục', 'Ca làm việc'] },
-  { label: 'Báo cáo',   icon: faChartBar,    permission: 'reports:read'      },
+  {
+    label: 'Nhân viên', icon: faUsers, permission: 'employees:read',
+    subItems: [
+      { label: 'Danh sách nhân viên' },
+      { label: 'Lịch làm việc' },
+      { label: 'Bảng chấm công' },
+    ],
+  },
+  { label: 'Báo cáo', icon: faChartBar, permission: 'reports:read' },
 ];
 
 interface NavbarProps {
   activePage: NavPage;
-  onNavigate: (page: NavPage, sub?: string) => void;  // thêm sub
+  onNavigate: (page: NavPage, sub?: SubPage) => void;
   navColor: string;
   userRole: string;
 }
@@ -62,8 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate, navColor, userR
     }
   };
 
-  // Click vào sub-item — truyền cả page lẫn tên sub
-  const handleSubClick = (e: React.MouseEvent, item: NavItemDef, sub: string) => {
+  const handleSubClick = (e: React.MouseEvent, item: NavItemDef, sub: SubPage) => {
     e.preventDefault();
     setOpenDropdown(null);
     onNavigate(item.label, sub);
@@ -86,17 +109,17 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate, navColor, userR
             </a>
             {item.subItems && openDropdown === item.label && (
               <ul className="dropdown-menu">
-                {item.subItems.map((sub, idx) => (
-                  <li key={sub} className="dropdown-item">
+                {item.subItems.map((sub) => (
+                  <li key={sub.label} className="dropdown-item">
                     <a
                       href="#"
                       className="dropdown-link"
-                      onClick={(e) => handleSubClick(e, item, sub)}
+                      onClick={(e) => handleSubClick(e, item, sub.label)}
                     >
-                      {sub}
-                      {item.label === 'Phòng/Bàn' && idx === 1 && (
+                      {sub.label}
+                      {sub.badge && (
                         <span className="badge-new" style={{ color: navColor, background: `${navColor}22` }}>
-                          Mới
+                          {sub.badge}
                         </span>
                       )}
                     </a>
