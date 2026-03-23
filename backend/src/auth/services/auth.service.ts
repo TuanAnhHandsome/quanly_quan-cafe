@@ -38,10 +38,8 @@ export class AuthService {
   async login(dto: LoginUserDto, req: Request, res: Response) {
     // 1. Xác thực email & password
     const user = await this.usersRepository.findOneByEmail(dto.email)
-    console.log('user found:', user?.email, 'isActive:', user?.isActive)
-    console.log('password in DB:', user?.password)
+
     if (user) {
-      const bcrypt = require('bcrypt')
       console.log('manual compare:', bcrypt.compareSync('12345678', user.password))
     }
     if (!user || !comparePassword(dto.password, user.password)) {
