@@ -1,8 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  ParseIntPipe,
   Post,
   Req,
   Res,
@@ -15,6 +19,7 @@ import { JwtAuthGuard } from "./guards/jwt-auth.guard"
 import { CurrentUser } from "./decorators/current-user.decorator"
 import type { JwtPayload } from "./guards/jwt-auth.guard"
 import { Public } from "./decorators/public.decorator"
+import { RequirePermissions } from "../permissions/decorators/permissions.decorator"
 
 @Controller("auth")
 export class AuthController {
@@ -66,6 +71,7 @@ export class AuthController {
    * POST /auth/logout-all
    * Revokes ALL sessions for the authenticated user (requires valid access token).
    */
+  @RequirePermissions("auth:logout_all")
   @Post("logout-all")
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
@@ -74,5 +80,75 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response
   ) {
     return this.authService.logoutAll(user.sub, res)
+  }
+
+  // ──────────────────────────────────────────────
+  // Device / Session management (own)
+  // ──────────────────────────────────────────────
+
+  /**
+   * GET /auth/devices
+   * Lấy danh sách thiết bị đang đăng nhập của chính mình.
+   */
+  @RequirePermissions("auth:view_devices")
+  @Get("devices")
+  async getOwnDevices(@CurrentUser() user: JwtPayload) {
+    const devices = await this.authService.getDevices(user.sub)
+    return { message: "Devices retrieved", data: devices }
+  }
+
+  /**
+   * DELETE /auth/devices/:sessionId
+   * Thu hồi 1 session/device cụ thể của chính mình.
+   */
+  @RequirePermissions("auth:revoke_device")
+  @Delete("devices/:sessionId")
+  @HttpCode(HttpStatus.OK)
+  async revokeOwnDevice(
+    @CurrentUser() user: JwtPayload,
+    @Param("sessionId", ParseIntPipe) sessionId: number,
+  ) {
+    return this.authService.forceLogoutDevice(user.sub, sessionId)
+  }
+
+  // ──────────────────────────────────────────────
+  // Force logout (Admin only)
+  // ──────────────────────────────────────────────
+
+  /**
+   * POST /auth/force-logout/:userId
+   * Admin thu hồi TOÀN BỘ session của một user (force logout).
+   * Tăng tokenVersion → invalidate access token ngay lập tức.
+   */
+  @RequirePermissions("user:revoke_token")
+  @Post("force-logout/:userId")
+  @HttpCode(HttpStatus.OK)
+  async forceLogout(@Param("userId", ParseIntPipe) userId: number) {
+    return this.authService.forceLogout(userId)
+  }
+
+  /**
+   * GET /auth/devices/user/:userId
+   * Admin xem danh sách thiết bị đang đăng nhập của một user bất kỳ.
+   */
+  @RequirePermissions("user:view_auth_logs")
+  @Get("devices/user/:userId")
+  async getUserDevices(@Param("userId", ParseIntPipe) userId: number) {
+    const devices = await this.authService.getDevices(userId)
+    return { message: "Devices retrieved", data: devices }
+  }
+
+  /**
+   * DELETE /auth/force-logout/:userId/device/:sessionId
+   * Admin thu hồi 1 thiết bị cụ thể của user.
+   */
+  @RequirePermissions("user:revoke_token")
+  @Delete("force-logout/:userId/device/:sessionId")
+  @HttpCode(HttpStatus.OK)
+  async forceLogoutDevice(
+    @Param("userId", ParseIntPipe) userId: number,
+    @Param("sessionId", ParseIntPipe) sessionId: number,
+  ) {
+    return this.authService.forceLogoutDevice(userId, sessionId)
   }
 }

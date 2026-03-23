@@ -1,8 +1,8 @@
-import { NestFactory } from "@nestjs/core"
+import { NestFactory, Reflector } from "@nestjs/core"
 import { AppModule } from "./app.module"
 import { ConfigService } from "@nestjs/config"
 import cookieParser from "cookie-parser"
-import { ValidationPipe } from "@nestjs/common"
+import { ClassSerializerInterceptor, ValidationPipe } from "@nestjs/common"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 
 async function bootstrap() {
@@ -32,6 +32,9 @@ async function bootstrap() {
     })
   ) // Sử dụng ValidationPipe để tự động validate dữ liệu đầu vào
 
+  // Kích hoạt ClassSerializerInterceptor để tự động loại bỏ các field @Exclude()
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
+  
   // Cấu hình Swagger để tạo tài liệu API
   const config = new DocumentBuilder()
     .setTitle("NestJS API")

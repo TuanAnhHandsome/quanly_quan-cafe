@@ -18,7 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:admin": "npx ts-node -r tsconfig-paths/register src/database/seed-admin.ts"
+    "seed:admin": "npx ts-node -r tsconfig-paths/register src/database/seed-admin.ts",
+    "seed:permissions": "npx ts-node -r tsconfig-paths/register src/database/seed-permissions.ts",
+    "seed:all": "npm run seed:admin && npm run seed:permissions"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -28,10 +30,13 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.6",
     "@nestjs/typeorm": "^11.0.0",
+    "@types/multer": "^2.0.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
+    "exceljs": "^4.4.0",
     "mysql2": "^3.18.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

@@ -70,4 +70,24 @@ export class SessionRepository {
   async revokeAllByUserId(userId: number): Promise<void> {
     await this.repo.update({ userId }, { isRevoked: true })
   }
+
+  /** Lấy danh sách tất cả session đang active của user */
+  async findActiveByUserId(userId: number): Promise<UserSession[]> {
+    return await this.repo.find({
+      where: { userId, isRevoked: false },
+      order: { lastUsedAt: "DESC" },
+    })
+  }
+
+  /** Revoke 1 session cụ thể theo id (phải thuộc đúng userId) */
+  async revokeSessionById(
+    sessionId: number,
+    userId: number,
+  ): Promise<boolean> {
+    const result = await this.repo.update(
+      { id: sessionId, userId, isRevoked: false },
+      { isRevoked: true },
+    )
+    return (result.affected ?? 0) > 0
+  }
 }

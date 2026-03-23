@@ -9,6 +9,7 @@ import { JwtService } from "@nestjs/jwt"
 import { ConfigService } from "@nestjs/config"
 import { Request } from "express"
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator"
+import { UsersRepository } from "../../users/repositories/users.repository"
 
 export interface JwtPayload {
   sub: number
@@ -23,7 +24,8 @@ export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -40,15 +42,28 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException("Access token is missing")
     }
 
+    let payload: JwtPayload
     try {
-      const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
+      payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
         secret: this.configService.get<string>("JWT_ACCESS_TOKEN_SECRET_KEY"),
       })
-      request["user"] = payload
     } catch {
       throw new UnauthorizedException("Access token is invalid or expired")
     }
 
+    // Kiểm tra tokenVersion: nếu admin đã force-logout (tăng tokenVersion),
+    // access token cũ sẽ bị từ chối ngay lập tức.
+    const user = await this.usersRepository.findOneById(payload.sub)
+    if (!user || !user.isActive) {
+      throw new UnauthorizedException("User not found or inactive")
+    }
+    if (payload.tokenVersion !== user.tokenVersion) {
+      throw new UnauthorizedException(
+        "Token has been revoked. Please login again.",
+      )
+    }
+
+    request["user"] = payload
     return true
   }
 
