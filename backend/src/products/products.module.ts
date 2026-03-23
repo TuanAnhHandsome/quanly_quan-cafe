@@ -22,6 +22,6 @@ import { ProductsController } from "./products.controller"
     CloudinaryService,
     ExcelService,
   ],
-  exports: [ProductsService, CategoriesService],
+  exports: [ProductsService, CategoriesService, ProductsRepository],
 })
 export class ProductsModule {}
